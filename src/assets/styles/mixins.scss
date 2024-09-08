@@ -1,0 +1,54 @@
+//Подключение шрифта
+@mixin font($font_name, $file_name, $weight, $style) {
+  @font-face {
+    font-family: $font_name;
+    src: url('@/assets/fonts/#{$file_name}.woff2') format('woff2'), url('@/assets/fonts/#{$file_name}.woff') format('woff');
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+$secondFont: 'Roboto';
+
+$fzBase: 14px;
+$fzSmall: 12px;
+$fzLarge: 16px;
+$lhBase: 22px;
+$fzHeader1: 44px;
+$lhHeader1: 76px;
+$fzHeader2: 56px;
+$lhHeader2: 64px;
+$fzHeader3: 30px;
+$lhHeader3: 36px;
+$fzHeader4: 24px;
+$lhHeader4: 32px;
+$fzHeader5: 20px;
+$lhHeader5: 28px;
+$fzHeader6: 18px;
+$lhHeader6: 28px;
+
+$headingColor: #000000;
+$textColor: rgba(0, 0, 0, 0.75);
+$textColorSecondary: rgba(0, 0, 0, 0.5);
+$disabledColor: rgba(0, 0, 0, 0.35);
+$disabledColorDark: rgba(255, 255, 255, 0.35);
+$dividers: rgba(0, 0, 0, 0.09);
+$background: #EBEEF3;
+$backgroundBase: #FFFFFF;
+$tableHeader: rgba(0, 0, 0, 0.02);
+$primaryColor: #1890FF;
+$infoColor: #1890FF;
+$successColor: #52C41A;
+$processingColor: #1890FF;
+$errorColor: #F5222D;
+$highlightColor: #F5222D;
+$warningColor: #FAAD14;
+$normalColor: #D9D9D9;
+$borderColor: #D9D9D9;
+$btnPrimaryColor: #FFFFFF;
+
+$shadow2: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+$shadow1Down: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+$shadow1Up: 0 -2px 8px 0 rgba(0, 0, 0, 0.15);
+$shadow1Left: -2px 0 8px 0 rgba(0, 0, 0, 0.15);
+$shadow1Right: 2px 0 8px 0 rgba(0, 0, 0, 0.15);

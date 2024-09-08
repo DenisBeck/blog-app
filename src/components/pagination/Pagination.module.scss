@@ -1,0 +1,55 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  &-list {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &-prev,
+  &-next,
+  &-item {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  &-button {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover,
+    &.active {
+      background-color: $primaryColor;
+      color: $backgroundBase;
+    }
+  }
+
+  &-next {
+    background: url('@/assets/img/right.png') center no-repeat;
+
+    &.disabled,
+    &:disabled {
+      background-image: url('@/assets/img/right-disabled.png');
+      cursor: default;
+    }
+  }
+
+  &-prev {
+    background: url('@/assets/img/left.png') center no-repeat;
+
+    &.disabled,
+    &:disabled {
+      background-image: url('@/assets/img/left-disabled.png');
+      cursor: default;
+    }
+  }
+}

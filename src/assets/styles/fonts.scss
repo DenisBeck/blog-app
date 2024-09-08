@@ -1,0 +1,7 @@
+@import 'mixins';
+
+@include font('Inter', 'Inter-Regular', 400, 'normal');
+@include font('Roboto', 'Roboto-Medium', 500, 'normal');
+@include font('Roboto', 'Roboto-Regular', 400, 'normal');
+
+$defaultFont: 'Inter';

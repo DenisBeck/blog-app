@@ -1,0 +1,44 @@
+.header {
+  background-color: $backgroundBase;
+  min-height: 80px;
+
+  &-logo {
+    color: $headingColor;
+    font-size: $fzHeader6;
+    line-height: $lhHeader6;
+  }
+
+  &-sign {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    &-in,
+    &-up {
+      font-size: $fzHeader6;
+      line-height: $lhHeader6;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-inline: 15px;
+      border-radius: 5px;
+    }
+
+    &-in {
+      color: $headingColor;
+    }
+
+    &-up {
+      color: $successColor;
+      border: 1px solid $successColor;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}

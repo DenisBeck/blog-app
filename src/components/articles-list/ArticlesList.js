@@ -39,7 +39,7 @@ function ArticlesList() {
           </li>
         ))}
       </ul>
-      <Pagination pagesCount={Math.ceil(articlesCount / ARTICLES_COUNT_ON_PAGE)} activeNumber={page} />
+      <Pagination pagesCount={Math.ceil(articlesCount / ARTICLES_COUNT_ON_PAGE)} activeNumber={page || 1} />
     </>
   );
 }

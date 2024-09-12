@@ -8,21 +8,29 @@ import LoginPage from './pages/LoginPage';
 import EditProfilePage from './pages/EditProfilePage';
 import EditArticlePage from './pages/EditArticlePage';
 import CreateArticlePage from './pages/CreateArticlePage';
+import LogoutPage from './pages/LogoutPage';
 import Layout from './components/layout';
+
+const routes = [
+  { path: '/', element: <ArticlesListPage /> },
+  { path: '/articles', element: <ArticlesListPage /> },
+  { path: '/articles/:slug', element: <ArticlePage /> },
+  { path: '/sign-up', element: <RegisterPage /> },
+  { path: '/sign-in', element: <LoginPage /> },
+  { path: '/log-out', element: <LogoutPage /> },
+  { path: '/profile', element: <EditProfilePage /> },
+  { path: '/editArticle', element: <EditArticlePage /> },
+  { path: '/createArticle', element: <CreateArticlePage /> },
+  { path: '/articles/page/:page', element: <ArticlesListPage /> },
+];
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<ArticlesListPage />} />
-        <Route path="/articles" element={<ArticlesListPage />} />
-        <Route path="/articles/:slug" element={<ArticlePage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/editProfile" element={<EditProfilePage />} />
-        <Route path="/editArticle" element={<EditArticlePage />} />
-        <Route path="/createArticle" element={<CreateArticlePage />} />
-        <Route path="/articles/page/:page" element={<ArticlesListPage />} />
+        {routes.map((item) => (
+          <Route key={item.path} path={item.path} element={item.element} />
+        ))}
       </Route>
     </Routes>
   );

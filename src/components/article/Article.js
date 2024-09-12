@@ -3,6 +3,7 @@ import Markdown from 'react-markdown';
 import { format } from 'date-fns';
 
 import heartIcon from '../../assets/img/heart.png';
+import UserInfo from '../user-info';
 
 import classes from './Article.module.scss';
 
@@ -29,13 +30,7 @@ function Article({ full, article }) {
         </ul>
         <p className={classes['article-text']}>{description}</p>
       </div>
-      <div className={classes['article-info']}>
-        <div className={classes['article-author-name']}>{author.username}</div>
-        <div className={classes['article-date']}>{format(new Date(updatedAt || createdAt), 'MMMM d, yyyy')}</div>
-        <div className={classes['article-author-avatar']}>
-          <img src={author.image} alt="John Doe" />
-        </div>
-      </div>
+      <UserInfo author={author} date={format(new Date(updatedAt || createdAt), 'MMMM d, yyyy')} />
       {full && (
         <div className={classes['article-body']}>
           <Markdown>{body}</Markdown>

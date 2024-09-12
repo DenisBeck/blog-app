@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 
 import classes from './Button.module.scss';
 
-function Button({ className, type, link, onClick, disabled, label = '' }) {
+function Button({ className, type, link, onClick, disabled, label = '', image = '' }) {
   if (type === 'link') {
     return (
       <Link onClick={onClick} to={link} className={[className, classes.link].join(' ')} href="tmp">
         {label}
+        {image && <img src={image} alt={image} />}
       </Link>
     );
   }
@@ -20,6 +21,7 @@ function Button({ className, type, link, onClick, disabled, label = '' }) {
       disabled={disabled}
     >
       {label}
+      {image && <img src={image} alt={image} />}
     </button>
   );
 }

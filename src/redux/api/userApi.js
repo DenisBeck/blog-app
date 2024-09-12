@@ -58,7 +58,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
+  tagTypes: ['User'],
   endpoints: (builder) => ({
+    getUser: builder.query({
+      query: () => ({
+        url: '/user',
+        headers: {
+          authorization: `Token ${localStorage.getItem('auth')}`,
+        },
+      }),
+      providesTags: ['User'],
+    }),
     registerUser: builder.mutation({
       query(data) {
         return {
@@ -67,6 +77,7 @@ export const userApi = createApi({
           body: data,
         };
       },
+      invalidatesTags: ['User'],
     }),
     loginUser: builder.mutation({
       query(data) {
@@ -79,18 +90,19 @@ export const userApi = createApi({
     }),
     updateUser: builder.mutation({
       query(data) {
-        const { authKey, ...body } = data;
+        console.log('updateUser');
         return {
           url: 'user',
           method: 'PUT',
-          body,
+          body: data,
           headers: {
-            authorization: authKey,
+            authorization: `Token ${localStorage.getItem('auth')}`,
           },
         };
       },
+      invalidatesTags: ['User'],
     }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation, useUpdateUserMutation } = userApi;
+export const { useRegisterUserMutation, useLoginUserMutation, useUpdateUserMutation, useGetUserQuery } = userApi;

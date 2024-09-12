@@ -14,7 +14,8 @@
     gap: 30px;
 
     &-in,
-    &-up {
+    &-up,
+    &-out {
       font-size: $fzHeader6;
       line-height: $lhHeader6;
       height: 50px;
@@ -32,6 +33,10 @@
     &-up {
       color: $successColor;
       border: 1px solid $successColor;
+    }
+
+    &-out {
+      border: 1px solid $textColor;
     }
   }
 }

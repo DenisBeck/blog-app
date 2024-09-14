@@ -1,5 +1,7 @@
 .article {
   width: 100%;
+  max-width: 938px;
+  margin: 0 auto;
   background-color: $backgroundBase;
   border-radius: 5px;
   box-shadow: $shadow2;
@@ -68,5 +70,53 @@
     overflow: hidden;
     font-size: $fzHeader6;
     line-height: $lhHeader6;
+  }
+
+  &-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 30px;
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    position: relative;
+    flex-wrap: wrap;
+  }
+
+  &-error {
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: right;
+    display: block;
+  }
+
+  &-popup {
+    position: absolute;
+    right: calc(100% + 10px);
+  }
+
+  &-delete,
+  &-edit {
+    height: 31px;
+    padding-inline: 15px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    background-color: $backgroundBase;
+    width: fit-content;
+  }
+
+  &-delete {
+    color: $errorColor;
+    border: 1px solid $errorColor;
+  }
+
+  &-edit {
+    color: $successColor;
+    border: 1px solid $successColor;
   }
 }

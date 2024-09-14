@@ -1,0 +1,49 @@
+.tags {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 40px;
+  }
+
+  &-input {
+    height: 100%;
+    border: 1px solid $borderColor;
+    display: flex;
+    align-items: center;
+    padding-inline: 12px;
+    border-radius: 4px;
+    width: 300px;
+    font-family: 'Roboto';
+    font-size: $fzLarge;
+
+    &::placeholder {
+      color: $normalColor;
+    }
+  }
+
+  &-delete,
+  &-add {
+    height: 100%;
+    border-radius: 4px;
+    font-family: 'Roboto';
+    font-size: $fzLarge;
+    background-color: $backgroundBase;
+  }
+
+  &-delete {
+    width: 120px;
+    border: 1px solid $errorColor;
+    color: $errorColor;
+  }
+
+  &-add {
+    width: 136px;
+    border: 1px solid $primaryColor;
+    color: $primaryColor;
+  }
+}

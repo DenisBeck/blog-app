@@ -1,89 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-//   async getArticles(countOnPage = 20, pageNumber = 0, tag = '', author = '', favorited = '') {
-//     let queryString = `${this.baseUrl}/articles?limit=${countOnPage}`;
-//     if (pageNumber > 0) {
-//       queryString += `&offset=${countOnPage * pageNumber}`;
-//     }
-//     if (tag) {
-//       queryString += `&tag=${tag}`;
-//     }
-//     if (author) {
-//       queryString += `&author=${author}`;
-//     }
-//     if (favorited) {
-//       queryString += `&favorited=${favorited}`;
-//     }
-
-//     const response = await fetch(queryString, {
-//       method: 'GET',
-//     });
-//     if (!response.ok) {
-//       throw new Error('Не удалось получить данные...');
-//     }
-//     const { articles } = await response.json();
-//     return articles;
-//   }
-
-//   async createArticle(authKey, data) {
-//     const response = await fetch(`${this.baseUrl}/articles`, {
-//       method: 'POST',
-//       headers: {
-//         ContentType: 'application/json',
-//         Authorization: authKey
-//       },
-//       body: JSON.stringify(data)
-//     });
-//     if (!response.ok) {
-//       throw new Error('Не удалось создать статью...');
-//     }
-//     const { article } = await response.json();
-//     return article;
-//   }
-
-//   async getArticle(slug) {
-//     const response = await fetch(`${this.baseUrl}/articles/${slug}`, {
-//       method: 'GET',
-//     });
-//     if (!response.ok) {
-//       throw new Error('Не удалось получить статью...');
-//     }
-//     const { article } = await response.json();
-//     return article;
-//   }
-
-//   async updateArticle(authKey, slug, data) {
-//     const response = await fetch(`${this.baseUrl}/articles/${slug}`, {
-//       method: 'PUT',
-//       headers: {
-//         ContentType: 'application/json',
-//         Authorization: authKey
-//       },
-//       body: JSON.stringify(data)
-//     });
-//     if (!response.ok) {
-//       throw new Error('Не удалось отредактировать статью...');
-//     }
-//     const { article } = await response.json();
-//     return article;
-//   }
-
-//   async deleteArticle(authKey, slug) {
-//     const response = await fetch(`${this.baseUrl}/articles/${slug}`, {
-//       method: 'DELETE',
-//       headers: {
-//         Authorization: authKey
-//       },
-//     });
-//     if (!response.ok) {
-//       throw new Error('Не удалось удалить статью...');
-//     }
-//   }
-
-// }
-
-// export default new ArticlesApi();
-
 export const articleApi = createApi({
   reducerPath: 'articleApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
@@ -100,14 +16,58 @@ export const articleApi = createApi({
           favorited,
         },
       }),
-      providesTags: [{ type: 'Article', id: 'LIST' }],
+      providesTags: ['Article'],
     }),
     getArticle: builder.query({
       query: (slug) => ({
         url: `/articles/${slug}`,
       }),
     }),
+    createArticle: builder.mutation({
+      query: (data) => {
+        const { authKey, article } = data;
+        return {
+          url: '/articles',
+          method: 'POST',
+          body: { article },
+          headers: {
+            authorization: `Token ${authKey}`,
+          },
+        };
+      },
+      invalidatesTags: ['Article'],
+    }),
+    updateArticle: builder.mutation({
+      query: (data) => {
+        const { authKey, slug, article } = data;
+        return {
+          url: `/articles/${slug}`,
+          method: 'PUT',
+          body: { article },
+          headers: {
+            authorization: `Token ${authKey}`,
+          },
+        };
+      },
+      invalidatesTags: ['Article'],
+    }),
+    deleteArticle: builder.mutation({
+      query: ({ authKey, slug }) => ({
+        url: `/articles/${slug}`,
+        method: 'DELETE',
+        headers: {
+          authorization: `Token ${authKey}`,
+        },
+      }),
+      invalidatesTags: ['Article'],
+    }),
   }),
 });
 
-export const { useGetArticlesQuery, useGetArticleQuery } = articleApi;
+export const {
+  useGetArticlesQuery,
+  useGetArticleQuery,
+  useCreateArticleMutation,
+  useUpdateArticleMutation,
+  useDeleteArticleMutation,
+} = articleApi;

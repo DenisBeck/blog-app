@@ -39,6 +39,17 @@
       border: 1px solid $textColor;
     }
   }
+
+  &-create-article {
+    display: flex;
+    align-items: center;
+    background-color: $backgroundBase;
+    padding-inline: 15px;
+    height: 50px;
+    border-radius: 5px;
+    color: $successColor;
+    border: 1px solid $successColor;
+  }
 }
 
 .container {

@@ -7,17 +7,17 @@ import { selectToken } from '../redux/slices/AuthSlice';
 import { useGetUserQuery, useUpdateUserMutation } from '../redux/api/userApi';
 
 function EditProfilePage() {
-  const isAuth = useSelector(selectToken);
+  const authToken = useSelector(selectToken);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuth) {
+    if (!authToken) {
       navigate('/', { replace: true });
     }
   });
 
-  const [updateUser, fetchInfo] = useUpdateUserMutation();
-  const response = useGetUserQuery();
+  const [updateUser, fetchInfo] = useUpdateUserMutation(authToken);
+  const response = useGetUserQuery(authToken);
   const currentUser = response?.data?.user;
 
   return (

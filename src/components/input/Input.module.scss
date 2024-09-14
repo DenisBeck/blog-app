@@ -13,6 +13,8 @@
     margin-top: 5px;
     align-items: center;
     border-radius: 4px;
+    font-family: 'Roboto';
+    font-size: $fzLarge;
 
     &::placeholder {
       color: $normalColor;

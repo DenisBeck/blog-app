@@ -10,9 +10,8 @@ import { useGetUserQuery } from '../../redux/api/userApi';
 import classes from './Header.module.scss';
 
 function Header({ className }) {
-  const isAuth = useSelector(selectToken);
-  console.log('render Header');
-  const response = useGetUserQuery();
+  const authToken = useSelector(selectToken);
+  const response = useGetUserQuery(authToken);
   const user = response?.data?.user;
 
   return (
@@ -21,13 +20,16 @@ function Header({ className }) {
         <Link to="/" className={classes['header-logo']}>
           Realworld Blog
         </Link>
-        {isAuth && (
+        {authToken && (
+          <Button className={classes['header-create-article']} type="link" link="/new-article" label="Create article" />
+        )}
+        {authToken && (
           <Link to="/profile">
             <UserInfo author={user} />
           </Link>
         )}
         <div className={classes['header-sign']}>
-          {isAuth ? (
+          {authToken ? (
             <Button className={classes['header-sign-out']} type="link" label="Log Out" link="/log-out" />
           ) : (
             <>

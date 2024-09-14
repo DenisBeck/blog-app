@@ -1,0 +1,63 @@
+.popup {
+  width: 240px;
+  padding: 12px 16px;
+  background-color: $backgroundBase;
+  position: relative;
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.15);
+
+  &-question {
+    font-family: 'Roboto';
+    color: #595959;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    &::before {
+      content: '';
+      margin-top: 3px;
+      display: block;
+      width: 14px;
+      height: 14px;
+      background: url('@/assets/img/exclamation-circle.png') center/cover no-repeat;
+    }
+  }
+
+  &-answer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  &-yes,
+  &-no {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding-inline: 8px;
+    font-family: 'Roboto';
+    border-radius: 4px;
+  }
+
+  &-yes {
+    background-color: $primaryColor;
+    color: $backgroundBase;
+  }
+
+  &-no {
+    border: 1px solid $borderColor;
+  }
+
+}
+
+.decor {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  width: 10px;
+  background: white;
+  height: 10px;
+  right: -5px;
+  transform: rotate(45deg);
+}

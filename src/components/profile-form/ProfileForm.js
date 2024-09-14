@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Input from '../input';
 import Button from '../button/Button';
 import ErrorText from '../error-text';
-import { setToken } from '../../redux/slices/AuthSlice';
+import { selectToken, setToken } from '../../redux/slices/AuthSlice';
 import loading from '../../assets/img/loading.gif';
 
 import classes from './ProfileForm.module.scss';
@@ -16,6 +16,8 @@ function ProfileForm({ process, fetchInfo, header, type, currentUser }) {
   const { isLoading } = fetchInfo;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const authToken = useSelector(selectToken);
 
   const [fetchErrors, setFetchErrors] = useState([]);
 
@@ -41,12 +43,13 @@ function ProfileForm({ process, fetchInfo, header, type, currentUser }) {
 
   const onSubmit = async (data) => {
     try {
-      const { username, email, password, image = null } = data;
       const { user } = await process({
-        user: { username, email, password, image },
+        user: data,
+        authKey: authToken || null,
       }).unwrap();
+
+      dispatch(setToken(user.token));
       localStorage.setItem('auth', user.token);
-      dispatch(setToken());
 
       navigate('/');
     } catch (err) {

@@ -13,6 +13,8 @@ function Pagination({ pagesCount, activeNumber }) {
   }
   const [offset, setOffset] = useState(initialOffset);
 
+  const pageNumbers = new Array(pagesCount < 5 ? pagesCount : 5).fill(0).map((_, i) => i + 1);
+
   const onNextHandler = () => {
     setOffset((o) => (o < pagesCount - 5 ? o + 1 : o));
   };
@@ -31,7 +33,7 @@ function Pagination({ pagesCount, activeNumber }) {
         disabled={offset < 1}
       />
       <ul className={classes['pagination-list']}>
-        {[offset + 1, offset + 2, offset + 3, offset + 4, offset + 5].map((item) => (
+        {pageNumbers.map((item) => (
           <li className={classes['pagination-item']} key={item}>
             <Button
               className={[

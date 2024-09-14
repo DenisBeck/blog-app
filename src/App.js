@@ -19,8 +19,8 @@ const routes = [
   { path: '/sign-in', element: <LoginPage /> },
   { path: '/log-out', element: <LogoutPage /> },
   { path: '/profile', element: <EditProfilePage /> },
-  { path: '/editArticle', element: <EditArticlePage /> },
-  { path: '/createArticle', element: <CreateArticlePage /> },
+  { path: '/articles/:slug/edit', element: <EditArticlePage /> },
+  { path: '/new-article', element: <CreateArticlePage /> },
   { path: '/articles/page/:page', element: <ArticlesListPage /> },
 ];
 

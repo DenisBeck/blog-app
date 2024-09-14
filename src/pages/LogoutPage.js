@@ -6,13 +6,13 @@ import ArticlesList from '../components/articles-list';
 import { removeToken, selectToken } from '../redux/slices/AuthSlice';
 
 function LogoutPage() {
-  const isAuth = useSelector(selectToken);
+  const authToken = useSelector(selectToken);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isAuth) {
-      navigate('/', { replace: true });
+    if (!authToken) {
+      navigate('/sign-in', { replace: true });
     } else {
       localStorage.removeItem('auth');
       dispatch(removeToken());

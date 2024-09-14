@@ -7,11 +7,11 @@ import { useRegisterUserMutation } from '../redux/api/userApi';
 import { selectToken } from '../redux/slices/AuthSlice';
 
 function RegisterPage() {
-  const isAuth = useSelector(selectToken);
+  const authToken = useSelector(selectToken);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuth) {
+    if (authToken) {
       navigate('/', { replace: true });
     }
   });

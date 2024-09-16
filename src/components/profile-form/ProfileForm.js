@@ -263,6 +263,7 @@ function ProfileForm({ process, fetchInfo, header, type, currentUser }) {
       {type === 'register' && (
         <label htmlFor="agreement" className={classes['profile-form-checkbox']}>
           <input
+            className={classes['profile-form-checkbox-input']}
             type="checkbox"
             name="agreement"
             id="agreement"

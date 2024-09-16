@@ -147,12 +147,12 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
         <label className={classes['article-form-textarea-label']} htmlFor="body">
           Text
           <textarea
-            className={[classes['article-form-textarea-text'], errors.text ? classes.error : null].join(' ')}
+            className={[classes['article-form-textarea-text'], errors.body ? classes.error : null].join(' ')}
             id="body"
-            name="article-text"
+            name="body"
             placeholder="Text"
             onChange={(e) => e.target.value}
-            aria-invalid={!!errors.text}
+            aria-invalid={!!errors.body}
             {...register('body', rules.body[type])}
           >
             {article ? article.body : null}

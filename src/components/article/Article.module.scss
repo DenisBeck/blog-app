@@ -15,8 +15,9 @@
   
   &-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 15px;
+    margin-bottom: 5px;
   }
 
   &-favorites {
@@ -36,7 +37,6 @@
     color: $infoColor;
     font-size: $fzHeader5;
     line-height: $fzHeader5;
-    margin-bottom: 5px;
   }
 
   &-tags {

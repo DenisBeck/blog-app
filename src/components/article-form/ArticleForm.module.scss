@@ -66,5 +66,12 @@
     color: $backgroundBase;
     font-family: 'Roboto';
     font-size: $fzLarge;
+    border: 1px solid $infoColor;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: $btnPrimaryColor;
+      color: $infoColor;
+    }
   }
 }

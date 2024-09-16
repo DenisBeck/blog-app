@@ -1,8 +1,14 @@
 .button,
 .link {
-
   & img {
     height: 100%;
     padding: 5px 0;
+  }
+}
+
+.button,
+.link {
+  &:hover {
+    background-color: $background;
   }
 }

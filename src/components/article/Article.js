@@ -3,28 +3,37 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import heartIcon from '../../assets/img/heart.png';
+import heartFilledIcon from '../../assets/img/heart_filled.png';
 import UserInfo from '../user-info';
 import Button from '../button/Button';
 import Popup from '../popup';
 import ErrorText from '../error-text';
 import { selectToken } from '../../redux/slices/AuthSlice';
-import { useDeleteArticleMutation } from '../../redux/api/articleApi';
+import {
+  useDeleteArticleMutation,
+  useFavoriteArticleMutation,
+  useUnfavoriteArticleMutation,
+} from '../../redux/api/articleApi';
 import loading from '../../assets/img/loading.gif';
 
 import classes from './Article.module.scss';
 
 function Article({ full, article }) {
+  const { title, slug, tagList, body, description, author, createdAt, updatedAt, favorited, favoritesCount } = article;
+
+  const [likesCount, setLikesCount] = useState(favoritesCount);
+  const [isFavorite, setIsFavorite] = useState(favorited);
   const [fetchErrors, setFetchErrors] = useState([]);
   const navigate = useNavigate();
   const authToken = useSelector(selectToken);
   const [deleting, setDeleting] = useState(false);
-  const { title, slug, tagList, body, description, author, createdAt, updatedAt, favoritesCount } = article;
 
-  const [deleteArticle, fetchInfo] = useDeleteArticleMutation();
-  const { isLoading } = fetchInfo;
+  const [favoriteArticle, { isLoadingLike }] = useFavoriteArticleMutation();
+  const [unfavoriteArticle, { isLoadingUnlike }] = useUnfavoriteArticleMutation();
+  const [deleteArticle, { isLoading }] = useDeleteArticleMutation();
 
   const fetchArticleDelete = async () => {
     setDeleting(false);
@@ -44,15 +53,36 @@ function Article({ full, article }) {
     }
   };
 
+  const toggleFavorite = async () => {
+    if (isFavorite) {
+      const { data } = await unfavoriteArticle({ authKey: authToken, slug });
+      const { favorited: isLiked, favoritesCount: likes } = data.article;
+      setIsFavorite(isLiked);
+      setLikesCount(likes);
+    } else {
+      const { data } = await favoriteArticle({ authKey: authToken, slug });
+      const { favorited: isLiked, favoritesCount: likes } = data.article;
+      setIsFavorite(isLiked);
+      setLikesCount(likes);
+    }
+  };
+
   return (
     <div className={classes.article}>
       <div className={classes['article-content']}>
         <div className={classes['article-header']}>
-          <h5 className={classes['article-title']}>{title}</h5>
-          <span className={classes['article-favorites']}>
-            <img src={heartIcon} alt="likes" />
-            <span className={classes['article-favorites-count']}>{favoritesCount}</span>
-          </span>
+          <h5 className={classes['article-title']}>
+            {!full ? <Link to={`/articles/${article.slug}`}>{title}</Link> : title}
+          </h5>
+          <button
+            type="button"
+            className={classes['article-favorites']}
+            onClick={toggleFavorite}
+            disabled={isLoadingLike || isLoadingUnlike}
+          >
+            <img src={isFavorite ? heartFilledIcon : heartIcon} alt="likes" />
+            <span className={classes['article-favorites-count']}>{likesCount}</span>
+          </button>
         </div>
         <ul className={classes['article-tags']}>
           {tagList?.map((tag, index) => (
@@ -62,7 +92,9 @@ function Article({ full, article }) {
             </li>
           ))}
         </ul>
-        <p className={classes['article-text']}>{description}</p>
+        <p className={classes['article-text']}>
+          {!full ? <Link to={`/articles/${article.slug}`}>{description}</Link> : description}
+        </p>
       </div>
 
       <div className={classes['article-sidebar']}>

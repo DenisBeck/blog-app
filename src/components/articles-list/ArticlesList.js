@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { useGetArticlesQuery } from '../../redux/api/articleApi';
 import Loader from '../loader';
@@ -33,9 +33,7 @@ function ArticlesList() {
       <ul className={classes.articles}>
         {articles.map((article) => (
           <li key={article.slug}>
-            <Link to={`/articles/${article.slug}`}>
-              <Article article={article} />
-            </Link>
+            <Article article={article} />
           </li>
         ))}
       </ul>

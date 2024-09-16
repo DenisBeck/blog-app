@@ -24,11 +24,16 @@
 
   &-checkbox {
     display: flex;
+    align-items: flex-start;
     gap: 10px;
     font-family: 'Roboto';
-    border-top: 1px solid $borderColor;
+    border-top: 1px solid $background;
     padding-block: 6px;
-    margin-top: 15px;
+    margin-top: 20px;
+
+    &-input {
+      margin-top: 4px;
+    }
   }
 
   &-button {
@@ -36,8 +41,15 @@
     background-color: $infoColor;
     border-radius: 4px;
     color: $btnPrimaryColor;
+    border: 1px solid $infoColor;
     height: 40px;
     margin-top: 20px;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: $btnPrimaryColor;
+      color: $infoColor;
+    }
   }
 
   &-note {
@@ -47,6 +59,34 @@
 
   &-link {
     color: $infoColor;
+  }
+}
+
+.input {
+
+  &-label {
+    color: $textColor;
+  }
+
+  &-field:not([type=checkbox]) {
+    width: 100%;
+    border: 1px solid $borderColor;
+    height: 40px;
+    padding-inline: 10px;
+    display: flex;
+    margin-top: 5px;
+    align-items: center;
+    border-radius: 4px;
+    font-family: 'Roboto';
+    font-size: $fzLarge;
+
+    &::placeholder {
+      color: $normalColor;
+    }
+
+    &.error {
+      border-color: $errorColor;
+    }
   }
 }
 

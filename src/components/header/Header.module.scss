@@ -3,6 +3,7 @@
   min-height: 80px;
 
   &-logo {
+    margin-right: auto;
     color: $headingColor;
     font-size: $fzHeader6;
     line-height: $lhHeader6;
@@ -54,7 +55,8 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   height: 100%;
+  gap: 30px;
 }

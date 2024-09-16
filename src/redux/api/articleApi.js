@@ -61,6 +61,24 @@ export const articleApi = createApi({
       }),
       invalidatesTags: ['Article'],
     }),
+    favoriteArticle: builder.mutation({
+      query: ({ authKey, slug }) => ({
+        url: `/articles/${slug}/favorite`,
+        method: 'POST',
+        headers: {
+          authorization: `Token ${authKey}`,
+        },
+      }),
+    }),
+    unfavoriteArticle: builder.mutation({
+      query: ({ authKey, slug }) => ({
+        url: `/articles/${slug}/favorite`,
+        method: 'DELETE',
+        headers: {
+          authorization: `Token ${authKey}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -70,4 +88,6 @@ export const {
   useCreateArticleMutation,
   useUpdateArticleMutation,
   useDeleteArticleMutation,
+  useFavoriteArticleMutation,
+  useUnfavoriteArticleMutation,
 } = articleApi;

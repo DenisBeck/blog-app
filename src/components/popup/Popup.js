@@ -1,12 +1,15 @@
 import React from 'react';
 
 import Button from '../button/Button';
+import useOutsideClick from '../../hooks/useOutsideClick';
 
 import classes from './Popup.module.scss';
 
-function Popup({ handleNoClick, handleYesClick, className, question }) {
+function Popup({ handleNoClick, handleYesClick, handleBlur, className, question }) {
+  const { ref } = useOutsideClick(handleBlur);
+
   return (
-    <div className={[classes.popup, className].join(' ')}>
+    <div className={[classes.popup, className].join(' ')} onBlur={handleBlur} ref={ref}>
       <div className={classes.decor} />
       <div className={classes['popup-question']}>{question}</div>
       <div className={classes['popup-answer']}>

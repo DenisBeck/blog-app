@@ -20,7 +20,7 @@ function Tags({ tags, onAddTag, onRemoveTag }) {
       {tags.length > 0 &&
         tags.map((tag) => (
           <li key={tag} className={classes['tags-item']}>
-            <input className={classes['tags-input']} value={tag} />
+            <input className={classes['tags-input']} value={tag} onChange={() => {}} />
             <Button className={classes['tags-delete']} type="button" label="Delete" onClick={() => onRemoveTag(tag)} />
           </li>
         ))}

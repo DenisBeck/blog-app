@@ -1,31 +1,11 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
-import { useGetArticlesQuery } from '../../redux/api/articleApi';
-import Loader from '../loader';
 import Pagination from '../pagination/Pagination';
 import Article from '../article/Article';
 
 import classes from './ArticlesList.module.scss';
 
-const ARTICLES_COUNT_ON_PAGE = 10;
-
-function ArticlesList() {
-  const { page } = useParams();
-
-  const { data, isError, isLoading, isFetching } = useGetArticlesQuery({
-    countOnPage: ARTICLES_COUNT_ON_PAGE,
-    pageNumber: page,
-  });
-
-  if (isLoading || isFetching) {
-    return <Loader />;
-  }
-
-  if (isError) {
-    return <h3>Не удалось загрузить статьи...</h3>;
-  }
-
+function ArticlesList({ data, page, countOnPage }) {
   const { articles, articlesCount } = data;
 
   return (
@@ -37,7 +17,7 @@ function ArticlesList() {
           </li>
         ))}
       </ul>
-      <Pagination pagesCount={Math.ceil(articlesCount / ARTICLES_COUNT_ON_PAGE)} activeNumber={page || 1} />
+      <Pagination pagesCount={Math.ceil(articlesCount / countOnPage)} activeNumber={page || 1} />
     </>
   );
 }

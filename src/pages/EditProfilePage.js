@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import ProfileForm from '../components/profile-form';
 import { selectToken } from '../redux/slices/AuthSlice';
 import { useGetUserQuery, useUpdateUserMutation } from '../redux/api/userApi';
+import Loader from '../components/loader';
+import ErrorText from '../components/error-text';
 
 function EditProfilePage() {
   const authToken = useSelector(selectToken);
@@ -12,21 +14,30 @@ function EditProfilePage() {
 
   useEffect(() => {
     if (!authToken) {
-      navigate('/', { replace: true });
+      navigate('/sign-in');
     }
   });
 
+  const { data, isLoading, isError, error } = useGetUserQuery(authToken);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    return <ErrorText text={error.data} />;
+  }
+
+  const { user } = data;
   const [updateUser, fetchInfo] = useUpdateUserMutation(authToken);
-  const response = useGetUserQuery(authToken);
-  const currentUser = response?.data?.user;
 
   return (
     <ProfileForm
-      type="edit"
+      type="editProfile"
       header="Edit Profile"
       fetchInfo={fetchInfo}
       process={updateUser}
-      currentUser={currentUser}
+      currentUser={user}
     />
   );
 }

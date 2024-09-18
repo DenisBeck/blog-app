@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Button from '../button/Button';
 
 import classes from './Pagination.module.scss';
 
 function Pagination({ pagesCount, activeNumber }) {
-  let initialOffset;
-  if (activeNumber <= 3) {
-    initialOffset = 0;
-  } else if (activeNumber > 3 && activeNumber < pagesCount - 1) {
-    initialOffset = activeNumber - 3;
-  } else {
-    initialOffset = pagesCount - 5;
-  }
-  const [offset, setOffset] = useState(initialOffset);
+  const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    if (activeNumber <= 3) {
+      setOffset(0);
+    } else if (activeNumber > 3 && activeNumber < pagesCount - 1) {
+      setOffset(activeNumber - 3);
+    } else {
+      setOffset(pagesCount - 5);
+    }
+  });
 
   const pageNumbers = new Array(pagesCount < 5 ? pagesCount : 5).fill(0).map((_, i) => i + 1 + offset);
 
   const onNextHandler = () => {
-    console.log('offset', offset, '...pagescount', pagesCount);
     setOffset((o) => (o < pagesCount - 5 ? o + 1 : o));
   };
 

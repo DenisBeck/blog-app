@@ -8,8 +8,6 @@ import classes from './Input.module.scss';
 function Input({ validateOptions, ariaInvalid, type = 'text', value, slug, label, className }) {
   const inputProps = useInput(value ?? '');
 
-  const { register, rules } = validateOptions;
-
   return (
     <div className={[classes.input, className].join(' ')}>
       <label className={classes['input-label']} htmlFor={slug}>
@@ -23,7 +21,7 @@ function Input({ validateOptions, ariaInvalid, type = 'text', value, slug, label
           name={slug}
           placeholder={label}
           aria-invalid={ariaInvalid}
-          {...register(slug, rules)}
+          {...validateOptions}
           {...inputProps}
         />
       </label>

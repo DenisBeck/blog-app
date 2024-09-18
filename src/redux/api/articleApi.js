@@ -6,16 +6,22 @@ export const articleApi = createApi({
   tagTypes: ['Article'],
   endpoints: (builder) => ({
     getArticles: builder.query({
-      query: ({ countOnPage = 20, pageNumber = 1, tag = undefined, author = undefined, favorited = undefined }) => ({
-        url: '/articles',
-        params: {
-          limit: countOnPage,
-          offset: countOnPage * (pageNumber - 1),
-          tag,
-          author,
-          favorited,
-        },
-      }),
+      query: ({ authKey, params }) => {
+        const { countOnPage = 20, pageNumber = 1, tag = undefined, author = undefined, favorited = undefined } = params;
+        return {
+          url: '/articles',
+          params: {
+            limit: countOnPage,
+            offset: countOnPage * (pageNumber - 1),
+            tag,
+            author,
+            favorited,
+          },
+          headers: {
+            authorization: `Token ${authKey}`,
+          },
+        };
+      },
       providesTags: ['Article'],
     }),
     getArticle: builder.query({

@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import ArticlesList from '../components/articles-list';
 import { removeToken, selectToken } from '../redux/slices/AuthSlice';
+
+import ArticlesListPage from './ArticleListPage';
 
 function LogoutPage() {
   const authToken = useSelector(selectToken);
@@ -11,15 +12,14 @@ function LogoutPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!authToken) {
-      navigate('/sign-in', { replace: true });
-    } else {
+    if (authToken) {
       localStorage.removeItem('auth');
       dispatch(removeToken());
     }
+    navigate('/sign-in');
   });
 
-  return <ArticlesList />;
+  return <ArticlesListPage />;
 }
 
 export default LogoutPage;

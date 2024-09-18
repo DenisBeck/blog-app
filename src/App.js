@@ -22,6 +22,7 @@ const routes = [
   { path: '/articles/:slug/edit', element: <EditArticlePage /> },
   { path: '/new-article', element: <CreateArticlePage /> },
   { path: '/articles/page/:page', element: <ArticlesListPage /> },
+  { path: '*', element: <ArticlesListPage /> },
 ];
 
 function App() {

@@ -12,13 +12,13 @@ function CreateArticlePage() {
 
   useEffect(() => {
     if (!authToken) {
-      navigate('/sign-in', { replace: true });
+      navigate('/sign-in');
     }
   });
 
   const [createArticle, fetchInfo] = useCreateArticleMutation();
 
-  return <ArticleForm process={createArticle} fetchInfo={fetchInfo} type="create" header="Create new article" />;
+  return <ArticleForm process={createArticle} fetchInfo={fetchInfo} type="createArticle" header="Create new article" />;
 }
 
 export default CreateArticlePage;

@@ -43,10 +43,17 @@
   &-yes {
     background-color: $primaryColor;
     color: $backgroundBase;
+    border: 1px solid $primaryColor;
+
+    &:hover {
+      background-color: $backgroundBase;
+      color: $primaryColor;
+    }
   }
 
   &-no {
     border: 1px solid $borderColor;
+    background-color: $backgroundBase;
   }
 
 }

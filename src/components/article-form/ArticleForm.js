@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -10,6 +9,8 @@ import Button from '../button/Button';
 import ErrorText from '../error-text';
 import Tags from '../tags';
 import loading from '../../assets/img/loading.gif';
+import useValidate from '../../hooks/useValidate';
+import getValidateFields from '../../hooks/useValidate/getValidateFields';
 
 import classes from './ArticleForm.module.scss';
 
@@ -30,63 +31,13 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
     setTags(tags.filter((tag) => tag !== val));
   };
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    register,
-    setValue,
-  } = useForm();
+  const { handleSubmit, setValue, validateFields } = useValidate('article', type, getValidateFields(type));
 
   useEffect(() => {
     setValue('title', article ? article.title : null);
     setValue('description', article ? article.description : null);
     setValue('body', article ? article.body : null);
   }, [article]);
-
-  const rules = {
-    title: {
-      create: {
-        required: {
-          value: true,
-          message: 'Title is required',
-        },
-      },
-      edit: {
-        required: {
-          value: true,
-          message: 'Title is required',
-        },
-      },
-    },
-    description: {
-      create: {
-        required: {
-          value: true,
-          message: 'Description is required',
-        },
-      },
-      edit: {
-        required: {
-          value: true,
-          message: 'Description is required',
-        },
-      },
-    },
-    body: {
-      create: {
-        required: {
-          value: true,
-          message: 'Text is required',
-        },
-      },
-      edit: {
-        required: {
-          value: true,
-          message: 'Text is required',
-        },
-      },
-    },
-  };
 
   const onSubmit = async (data) => {
     const dataWithTags = { ...data, tagList: tags };
@@ -97,9 +48,7 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
         slug: article ? article.slug : null,
       }).unwrap();
 
-      console.log(fetchArticle);
-
-      navigate('/');
+      navigate(`/articles${article ? `/${article.slug}` : ''}`, { state: { article: fetchArticle } });
     } catch (err) {
       if (typeof err.data === 'string') {
         setFetchErrors([err.data]);
@@ -119,53 +68,56 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes['article-form']}>
       <h3 className={classes['article-form-title']}>{header}</h3>
-      <Input
-        key="title"
-        validateOptions={{ register, rules: rules.title[type] }}
-        className={classes['article-form-input']}
-        slug="title"
-        label="Title"
-        ariaInvalid={!!errors.title}
-        value={article ? article.title : null}
-      />
-      {errors.title && <ErrorText text={errors.title.message} />}
-      {getErrorMessageForField('title') && <ErrorText text={getErrorMessageForField('title')} />}
 
-      <Input
-        key="description"
-        validateOptions={{ register, rules: rules.description[type] }}
-        className={classes['article-form-input']}
-        slug="description"
-        label="Short description"
-        ariaInvalid={!!errors.description}
-        value={article ? article.description : null}
-      />
-      {errors.description && <ErrorText text={errors.description.message} />}
-      {getErrorMessageForField('description') && <ErrorText text={getErrorMessageForField('description')} />}
+      {validateFields.map(({ fieldInfo, validateOptions, errorMessage }) => {
+        if (fieldInfo.value === 'body') {
+          return (
+            <Fragment key={fieldInfo.value}>
+              <div className={classes['article-form-textarea']}>
+                <label className={classes['article-form-textarea-label']} htmlFor={fieldInfo.value}>
+                  {fieldInfo.label}
+                  <textarea
+                    className={[classes['article-form-textarea-text'], errorMessage ? classes.error : null].join(' ')}
+                    id={fieldInfo.value}
+                    name={fieldInfo.value}
+                    placeholder={fieldInfo.label}
+                    onChange={(e) => e.target.value}
+                    aria-invalid={!!errorMessage}
+                    {...validateOptions}
+                    defaultValue={article ? article.body : null}
+                  />
+                </label>
+              </div>
+              {errorMessage && <ErrorText text={errorMessage} />}
+              {getErrorMessageForField(fieldInfo.value) && (
+                <ErrorText text={getErrorMessageForField(fieldInfo.value)} />
+              )}
+            </Fragment>
+          );
+        }
 
-      <div className={classes['article-form-textarea']}>
-        <label className={classes['article-form-textarea-label']} htmlFor="body">
-          Text
-          <textarea
-            className={[classes['article-form-textarea-text'], errors.body ? classes.error : null].join(' ')}
-            id="body"
-            name="body"
-            placeholder="Text"
-            onChange={(e) => e.target.value}
-            aria-invalid={!!errors.body}
-            {...register('body', rules.body[type])}
-          >
-            {article ? article.body : null}
-          </textarea>
-        </label>
-      </div>
-      {errors.body && <ErrorText text={errors.body.message} />}
-      {getErrorMessageForField('body') && <ErrorText text={getErrorMessageForField('body')} />}
+        return (
+          <Fragment key={fieldInfo.value}>
+            <Input
+              type={fieldInfo.type}
+              validateOptions={validateOptions}
+              className={classes['article-form-input']}
+              slug={fieldInfo.value}
+              label={fieldInfo.label}
+              ariaInvalid={!!errorMessage}
+              value={article ? article.title : null}
+            />
+            {errorMessage && <ErrorText text={errorMessage} />}
+            {getErrorMessageForField(fieldInfo.value) && <ErrorText text={getErrorMessageForField(fieldInfo.value)} />}
+          </Fragment>
+        );
+      })}
 
       <div className={classes['article-form-tags']}>
         <h4 className={classes['article-form-tags-title']}>Tags</h4>
         <Tags tags={tags} onAddTag={onAddTagHandler} onRemoveTag={onRemoveTagHandler} />
       </div>
+
       <Button className={classes['article-form-button']} type="Submit" label="Send" image={isLoading && loading} />
       {fetchErrors.length > 0 && <ErrorText text={fetchErrors} />}
     </form>

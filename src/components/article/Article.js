@@ -18,6 +18,7 @@ import {
   useUnfavoriteArticleMutation,
 } from '../../redux/api/articleApi';
 import loading from '../../assets/img/loading.gif';
+import { useGetUserQuery } from '../../redux/api/userApi';
 
 import classes from './Article.module.scss';
 
@@ -27,15 +28,22 @@ function Article({ full, article }) {
   const [likesCount, setLikesCount] = useState(favoritesCount);
   const [isFavorite, setIsFavorite] = useState(favorited);
   const [fetchErrors, setFetchErrors] = useState([]);
-  const navigate = useNavigate();
-  const authToken = useSelector(selectToken);
   const [deleting, setDeleting] = useState(false);
+
+  const navigate = useNavigate();
+
+  const authToken = useSelector(selectToken);
+  const response = useGetUserQuery(authToken);
+  const user = response?.data?.user;
 
   const [favoriteArticle, { isLoadingLike }] = useFavoriteArticleMutation();
   const [unfavoriteArticle, { isLoadingUnlike }] = useUnfavoriteArticleMutation();
   const [deleteArticle, { isLoading }] = useDeleteArticleMutation();
 
   const fetchArticleDelete = async () => {
+    if (!authToken) {
+      return;
+    }
     setDeleting(false);
     try {
       await deleteArticle({
@@ -54,17 +62,21 @@ function Article({ full, article }) {
   };
 
   const toggleFavorite = async () => {
+    if (!authToken) {
+      return;
+    }
+
+    let responseData;
     if (isFavorite) {
       const { data } = await unfavoriteArticle({ authKey: authToken, slug });
-      const { favorited: isLiked, favoritesCount: likes } = data.article;
-      setIsFavorite(isLiked);
-      setLikesCount(likes);
+      responseData = data;
     } else {
       const { data } = await favoriteArticle({ authKey: authToken, slug });
-      const { favorited: isLiked, favoritesCount: likes } = data.article;
-      setIsFavorite(isLiked);
-      setLikesCount(likes);
+      responseData = data;
     }
+    const { favorited: isLiked, favoritesCount: likes } = responseData.article;
+    setIsFavorite(isLiked);
+    setLikesCount(likes);
   };
 
   return (
@@ -82,6 +94,7 @@ function Article({ full, article }) {
           >
             <img src={isFavorite ? heartFilledIcon : heartIcon} alt="likes" />
             <span className={classes['article-favorites-count']}>{likesCount}</span>
+            {fetchErrors.length > 0 && <ErrorText className={classes['article-error']} text={fetchErrors} />}
           </button>
         </div>
         <ul className={classes['article-tags']}>
@@ -99,7 +112,7 @@ function Article({ full, article }) {
 
       <div className={classes['article-sidebar']}>
         <UserInfo author={author} date={format(new Date(updatedAt || createdAt), 'MMMM d, yyyy')} />
-        {full && (
+        {full && user && user.username === author.username && (
           <div className={classes['article-actions']}>
             <Button
               type="button"
@@ -115,6 +128,7 @@ function Article({ full, article }) {
                 className={classes['article-popup']}
                 handleNoClick={() => setDeleting(false)}
                 handleYesClick={fetchArticleDelete}
+                handleBlur={() => setDeleting(false)}
               />
             )}
             {fetchErrors.length > 0 && <ErrorText className={classes['article-error']} text={fetchErrors} />}

@@ -5,7 +5,7 @@ import useInput from '../../hooks/useInput';
 
 import classes from './Input.module.scss';
 
-function Input({ validateOptions, ariaInvalid, type = 'text', value, slug, label, className }) {
+function Input({ validateOptions, ariaInvalid, type = 'text', value, slug, label, className, onInput }) {
   const inputProps = useInput(value ?? '');
 
   return (
@@ -21,6 +21,7 @@ function Input({ validateOptions, ariaInvalid, type = 'text', value, slug, label
           name={slug}
           placeholder={label}
           aria-invalid={ariaInvalid}
+          onInput={onInput}
           {...validateOptions}
           {...inputProps}
         />

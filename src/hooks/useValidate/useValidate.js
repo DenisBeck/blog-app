@@ -9,6 +9,7 @@ export default function useValidate(form, type, fields) {
   const {
     handleSubmit,
     formState: { errors },
+    clearErrors,
     register,
     watch,
     setValue,
@@ -16,7 +17,7 @@ export default function useValidate(form, type, fields) {
 
   useEffect(() => {
     if (type === 'register') {
-      rules.repeatPassword.register.validate = (value) => {
+      rules.register.repeatPassword.validate = (value) => {
         if (watch('password') !== value) {
           return 'Passwords must match';
         }
@@ -32,5 +33,5 @@ export default function useValidate(form, type, fields) {
     return { fieldInfo: field, validateOptions, errorMessage };
   });
 
-  return { handleSubmit, setValue, validateFields };
+  return { handleSubmit, clearErrors, setValue, validateFields };
 }

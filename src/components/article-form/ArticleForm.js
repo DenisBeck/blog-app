@@ -31,7 +31,7 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
     setTags(tags.filter((tag) => tag !== val));
   };
 
-  const { handleSubmit, setValue, validateFields } = useValidate('article', type, getValidateFields(type));
+  const { handleSubmit, setValue, validateFields, clearErrors } = useValidate('article', type, getValidateFields(type));
 
   useEffect(() => {
     setValue('title', article ? article.title : null);
@@ -83,6 +83,7 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
                     placeholder={fieldInfo.label}
                     onChange={(e) => e.target.value}
                     aria-invalid={!!errorMessage}
+                    onInput={() => clearErrors(fieldInfo.value)}
                     {...validateOptions}
                     defaultValue={article ? article.body : null}
                   />
@@ -105,6 +106,7 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
               slug={fieldInfo.value}
               label={fieldInfo.label}
               ariaInvalid={!!errorMessage}
+              onInput={() => clearErrors(fieldInfo.value)}
               value={article ? article.title : null}
             />
             {errorMessage && <ErrorText text={errorMessage} />}

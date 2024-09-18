@@ -21,7 +21,7 @@ function ProfileForm({ process, fetchInfo, header, type, currentUser }) {
   const authToken = useSelector(selectToken);
 
   const [fetchErrors, setFetchErrors] = useState([]);
-  const { handleSubmit, setValue, validateFields } = useValidate('profile', type, getValidateFields(type));
+  const { handleSubmit, setValue, validateFields, clearErrors } = useValidate('profile', type, getValidateFields(type));
 
   useEffect(() => {
     setValue('username', currentUser ? currentUser.username : null);
@@ -94,6 +94,7 @@ function ProfileForm({ process, fetchInfo, header, type, currentUser }) {
               slug={fieldInfo.value}
               label={fieldInfo.label}
               ariaInvalid={!!errorMessage}
+              onInput={() => clearErrors(fieldInfo.value)}
               value={currentUser ? currentUser[fieldInfo.value] : null}
             />
             {errorMessage && <ErrorText text={errorMessage} />}

@@ -48,7 +48,7 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
         slug: article ? article.slug : null,
       }).unwrap();
 
-      navigate(`/articles${article ? `/${article.slug}` : ''}`, { state: { article: fetchArticle } });
+      navigate(`/articles/${fetchArticle.slug}`, { state: { article: fetchArticle } });
     } catch (err) {
       if (typeof err.data === 'string') {
         setFetchErrors([err.data]);

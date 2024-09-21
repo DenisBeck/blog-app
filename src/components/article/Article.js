@@ -33,7 +33,7 @@ function Article({ full, article }) {
   const navigate = useNavigate();
 
   const authToken = useSelector(selectToken);
-  const response = useGetUserQuery(authToken);
+  const response = useGetUserQuery(authToken, { skip: !authToken });
   const user = response?.data?.user;
 
   const [favoriteArticle, { isLoadingLike }] = useFavoriteArticleMutation();

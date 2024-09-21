@@ -11,7 +11,7 @@ import classes from './Header.module.scss';
 
 function Header({ className }) {
   const authToken = useSelector(selectToken);
-  const response = useGetUserQuery(authToken);
+  const response = useGetUserQuery(authToken, { skip: !authToken });
   const user = response?.data?.user;
 
   return (

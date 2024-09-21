@@ -6,12 +6,17 @@ export const userApi = createApi({
   tagTypes: ['User'],
   endpoints: (builder) => ({
     getUser: builder.query({
-      query: (authKey) => ({
-        url: '/user',
-        headers: {
-          authorization: `Token ${authKey}`,
-        },
-      }),
+      query: (authKey) => {
+        if (authKey) {
+          return {
+            url: '/user',
+            headers: {
+              authorization: `Token ${authKey}`,
+            },
+          };
+        }
+        return null;
+      },
       providesTags: ['User'],
     }),
     registerUser: builder.mutation({

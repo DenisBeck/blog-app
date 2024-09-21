@@ -108,6 +108,7 @@ function ProfileForm({ process, fetchInfo, header, type, currentUser }) {
         type="Submit"
         label={!isLoading && buttonLabel}
         image={isLoading && loading}
+        disabled={isLoading}
       />
 
       {type === 'register' && (

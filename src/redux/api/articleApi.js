@@ -25,9 +25,13 @@ export const articleApi = createApi({
       providesTags: ['Article'],
     }),
     getArticle: builder.query({
-      query: (slug) => ({
+      query: ({ authKey, slug }) => ({
         url: `/articles/${slug}`,
+        headers: {
+          authorization: `Token ${authKey}`,
+        },
       }),
+      providesTags: ['Article'],
     }),
     createArticle: builder.mutation({
       query: (data) => {
@@ -75,6 +79,7 @@ export const articleApi = createApi({
           authorization: `Token ${authKey}`,
         },
       }),
+      invalidatesTags: ['Article'],
     }),
     unfavoriteArticle: builder.mutation({
       query: ({ authKey, slug }) => ({
@@ -84,6 +89,7 @@ export const articleApi = createApi({
           authorization: `Token ${authKey}`,
         },
       }),
+      invalidatesTags: ['Article'],
     }),
   }),
 });

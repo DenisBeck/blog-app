@@ -120,6 +120,7 @@ function Article({ full, article }) {
               className={classes['article-delete']}
               onClick={() => setDeleting(true)}
               image={isLoading && loading}
+              disabled={isLoading}
             />
             <Button type="link" link={`/articles/${slug}/edit`} label="edit" className={classes['article-edit']} />
             {deleting && (
@@ -129,6 +130,7 @@ function Article({ full, article }) {
                 handleNoClick={() => setDeleting(false)}
                 handleYesClick={fetchArticleDelete}
                 handleBlur={() => setDeleting(false)}
+                disabled={isLoading}
               />
             )}
             {fetchErrors.length > 0 && <ErrorText className={classes['article-error']} text={fetchErrors} />}

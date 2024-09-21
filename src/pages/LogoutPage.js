@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { removeToken, selectToken } from '../redux/slices/AuthSlice';
 
-import ArticlesListPage from './ArticleListPage';
+import ArticlesListPage from './ArticlesListPage';
 
 function LogoutPage() {
   const authToken = useSelector(selectToken);

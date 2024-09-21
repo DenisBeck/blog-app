@@ -5,7 +5,7 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 
 import classes from './Popup.module.scss';
 
-function Popup({ handleNoClick, handleYesClick, handleBlur, className, question }) {
+function Popup({ handleNoClick, handleYesClick, handleBlur, className, question, disabled }) {
   const { ref } = useOutsideClick(handleBlur);
 
   return (
@@ -14,7 +14,13 @@ function Popup({ handleNoClick, handleYesClick, handleBlur, className, question 
       <div className={classes['popup-question']}>{question}</div>
       <div className={classes['popup-answer']}>
         <Button onClick={handleNoClick} type="button" label="No" className={classes['popup-no']} />
-        <Button onClick={handleYesClick} type="button" label="Yes" className={classes['popup-yes']} />
+        <Button
+          onClick={handleYesClick}
+          type="button"
+          label="Yes"
+          className={classes['popup-yes']}
+          disabled={disabled}
+        />
       </div>
     </div>
   );

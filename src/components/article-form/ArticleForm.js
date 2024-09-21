@@ -120,7 +120,13 @@ function ArticleForm({ article, process, fetchInfo, type, header }) {
         <Tags tags={tags} onAddTag={onAddTagHandler} onRemoveTag={onRemoveTagHandler} />
       </div>
 
-      <Button className={classes['article-form-button']} type="Submit" label="Send" image={isLoading && loading} />
+      <Button
+        className={classes['article-form-button']}
+        type="Submit"
+        label="Send"
+        image={isLoading && loading}
+        disabled={isLoading}
+      />
       {fetchErrors.length > 0 && <ErrorText text={fetchErrors} />}
     </form>
   );

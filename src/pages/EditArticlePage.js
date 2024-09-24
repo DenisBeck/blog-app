@@ -10,7 +10,7 @@ import { selectToken } from '../redux/slices/AuthSlice';
 function EditArticlePage() {
   const { slug } = useParams();
   const authToken = useSelector(selectToken);
-  const { data, isLoading } = useGetArticleQuery(slug);
+  const { data, isLoading } = useGetArticleQuery({ authKey: authToken, slug });
   const [updateArticle, fetchInfo] = useUpdateArticleMutation();
   const navigate = useNavigate();
 

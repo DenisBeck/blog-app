@@ -140,7 +140,9 @@ function Article({ full, article }) {
 
       {full && (
         <div className={classes['article-body']}>
-          <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
+          <pre>
+            <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
+          </pre>
         </div>
       )}
     </div>
